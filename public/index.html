@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Food Delivery Menu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f8f5f0;
+      margin: 0;
+      padding: 0;
+      color: #1a1a1a;
+    }
+
+    .food-app {
+      max-width: 480px;
+      margin: 0 auto;
+      background: #fff;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d1f0e 60%, #3d2a10 100%);
+      padding: 2.5rem 2rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(239, 159, 39, 0.12);
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -20px; left: 30%;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: rgba(239, 159, 39, 0.07);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(239, 159, 39, 0.2);
+      color: #EF9F27;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(239, 159, 39, 0.3);
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 600;
+      color: #fff;
+      margin: 0 0 0.5rem;
+      line-height: 1.15;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: #EF9F27;
+    }
+
+    .version-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.55);
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-top: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .version-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #4CAF50;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #888;
+      padding: 1.5rem 1.5rem 0.75rem;
+    }
+
+    .menu-grid {
+      padding: 0 1rem 5rem;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.15s;
+      border: 0.5px solid transparent;
+    }
+
+    .menu-item:hover {
+      background: #faf8f5;
+      border-color: #e8e2d9;
+    }
+
+    .item-emoji {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: #f5f2ee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      flex-shrink: 0;
+      border: 0.5px solid #e8e2d9;
+    }
+
+    .item-info { flex: 1; }
+
+    .item-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: #1a1a1a;
+      margin: 0 0 3px;
+    }
+
+    .item-desc {
+      font-size: 12px;
+      color: #888;
+      margin: 0;
+      font-weight: 300;
+    }
+
+    .item-right { text-align: right; flex-shrink: 0; }
+
+    .item-price {
+      font-size: 16px;
+      font-weight: 500;
+      color: #1a1a1a;
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      justify-content: flex-end;
+    }
+
+    .qty-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: #EF9F27;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      transition: transform 0.1s, background 0.15s;
+      flex-shrink: 0;
+    }
+
+    .qty-btn:hover { transform: scale(1.1); background: #BA7517; }
+    .qty-btn:active { transform: scale(0.95); }
+    .qty-btn.sub { background: #e8e2d9; color: #1a1a1a; }
+    .qty-btn.sub:hover { background: #d4cdc4; }
+
+    .qty-num {
+      font-size: 14px;
+      font-weight: 500;
+      min-width: 16px;
+      text-align: center;
+      color: #1a1a1a;
+    }
+
+    .divider {
+      height: 0.5px;
+      background: #f0ece6;
+      margin: 0 1rem;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 20px;
+      font-weight: 500;
+      margin-left: 6px;
+      vertical-align: middle;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .tag-popular { background: #FAEEDA; color: #854F0B; }
+    .tag-new     { background: #EAF3DE; color: #3B6D11; }
+    .tag-spicy   { background: #FCEBEB; color: #A32D2D; }
+
+    .cart-bar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      background: #1a1a1a;
+      color: white;
+      padding: 1rem 1.5rem;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      z-index: 50;
+    }
+
+    .cart-count { font-size: 13px; color: rgba(255,255,255,0.55); }
+    .cart-total { font-size: 18px; font-weight: 500; color: #EF9F27; }
+
+    .checkout-btn {
+      background: #EF9F27;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: background 0.15s;
+    }
+
+    .checkout-btn:hover { background: #BA7517; }
+
+    .toast {
+      position: fixed;
+      top: 1rem; right: 1rem;
+      background: #1a1a1a;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      border-left: 3px solid #EF9F27;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.25s;
+      pointer-events: none;
+      z-index: 99;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem 6rem;
+      font-size: 12px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+
+<div class="food-app">
+  <div id="toast" class="toast"></div>
+
+  <div class="hero">
+    <div class="hero-badge">Now open · Est. delivery 25 min</div>
+    <h1>Fresh Bites,<br><em>Delivered Fast</em></h1>
+    <div class="version-pill">
+      <span class="version-dot"></span>
+      <span id="version">Loading version...</span>
+    </div>
+  </div>
+
+  <div class="section-label">Today's Menu</div>
+
+  <div class="menu-grid" id="menu">
+    <div style="padding: 2rem; text-align: center; color: #aaa; font-size: 14px;">Loading menu...</div>
+  </div>
+
+  <div class="cart-bar" id="cart-bar">
+    <div>
+      <div class="cart-count" id="cart-count">0 items</div>
+      <div class="cart-total" id="cart-total">$0.00</div>
+    </div>
+    <button class="checkout-btn">Checkout</button>
+  </div>
+
+  <footer>
+    <p>Food Menu Service · CI/CD Demo</p>
+  </footer>
+</div>
+
+<script>
+  const itemMeta = {
+    "Truffle Mushroom Risotto": { emoji: "🍄", desc: "Arborio rice, wild mushrooms, parmesan",      tag: "popular" },
+    "Spiced Lamb Tacos":        { emoji: "🌮", desc: "Slow-braised lamb, pickled onions, harissa",   tag: "spicy"   },
+    "Burrata Garden Salad":     { emoji: "🥗", desc: "Fresh burrata, heirloom tomatoes, basil oil",  tag: "new"     },
+    "Crispy Duck Confit":       { emoji: "🦆", desc: "Confit leg, cherry jus, roasted potatoes",     tag: null      },
+    "Cripsy Duck Confit":       { emoji: "🦆", desc: "Confit leg, cherry jus, roasted potatoes",     tag: null      },
+    "Wagyu Smash Burger":       { emoji: "🍔", desc: "Double patty, aged cheddar, house pickles",    tag: "popular" },
+    "Miso Black Cod":           { emoji: "🐟", desc: "Saikyo miso, bok choy, pickled ginger",        tag: null      },
+    "Burnt Basque Cheesecake":  { emoji: "🍰", desc: "Creamy center, caramelized top, berry coulis", tag: "new"     },
+    "Brunt Basque Cheesecake":  { emoji: "🍰", desc: "Creamy center, caramelized top, berry coulis", tag: "new"     },
+  };
+
+  const defaultEmojis = ["🍽️","🥘","🍜","🥗","🍱","🧆","🫕"];
+
+  const tagClasses = { popular: "tag-popular", new: "tag-new", spicy: "tag-spicy" };
+
+  let cart = {};
+
+  function renderMenu(items) {
+    const div = document.getElementById("menu");
+    div.innerHTML = items.map((item, i) => {
+      const meta = itemMeta[item.name] || {};
+      const emoji = item.emoji || meta.emoji || defaultEmojis[i % defaultEmojis.length];
+      const desc  = item.desc  || meta.desc  || "";
+      const tag   = item.tag   || meta.tag   || null;
+      const tagHtml = tag ? `<span class="tag ${tagClasses[tag]}">${tag}</span>` : '';
+      const safeName = item.name.replace(/'/g, "\\'");
+      return `
+        ${i > 0 ? '<div class="divider"></div>' : ''}
+        <div class="menu-item">
+          <div class="item-emoji">${emoji}</div>
+          <div class="item-info">
+            <p class="item-name">${item.name}${tagHtml}</p>
+            <p class="item-desc">${desc}</p>
+          </div>
+          <div class="item-right">
+            <div class="item-price">$${item.price.toFixed(2)}</div>
+            <div class="qty-controls" id="qty-${i}">
+              <button class="qty-btn sub" onclick="changeQty('${safeName}', ${item.price}, -1, ${i})" style="display:none">−</button>
+              <span class="qty-num" id="qnum-${i}" style="display:none">0</span>
+              <button class="qty-btn" onclick="changeQty('${safeName}', ${item.price}, 1, ${i})">+</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function changeQty(name, price, delta, idx) {
+    if (!cart[name]) cart[name] = { price, qty: 0 };
+    cart[name].qty = Math.max(0, cart[name].qty + delta);
+    const qty = cart[name].qty;
+    const subBtn = document.querySelector(`#qty-${idx} .sub`);
+    const qnum   = document.getElementById(`qnum-${idx}`);
+    if (subBtn) subBtn.style.display = qty > 0 ? 'flex' : 'none';
+    if (qnum)   { qnum.style.display = qty > 0 ? 'inline' : 'none'; qnum.textContent = qty; }
+    if (delta > 0) showToast(`Added ${name.split(' ')[0]}!`);
+    updateCart();
+  }
+
+  function updateCart() {
+    const items = Object.values(cart);
+    const count = items.reduce((s, i) => s + i.qty, 0);
+    const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+    const bar = document.getElementById("cart-bar");
+    if (count > 0) {
+      bar.style.display = "flex";
+      document.getElementById("cart-count").textContent = `${count} item${count !== 1 ? 's' : ''}`;
+      document.getElementById("cart-total").textContent = `$${total.toFixed(2)}`;
+    } else {
+      bar.style.display = "none";
+    }
+  }
+
+  let toastTimer;
+  function showToast(msg) {
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove("show"), 1800);
+  }
+
+  async function loadMenu() {
+    try {
+      const res = await fetch("/api/menu");
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      renderMenu(data);
+    } catch {
+      renderMenu(Object.entries(itemMeta).map(([name, meta], i) => ({
+        name, price: [18.50,14.00,12.00,22.00,19.00,24.50,9.00][i] || 12.00, ...meta
+      })));
+    }
+  }
+
+  async function loadVersion() {
+    try {
+      const res = await fetch("/version");
+      const data = await res.json();
+      document.getElementById("version").innerText = `Version ${data.version}`;
+    } catch {
+      document.getElementById("version").innerText = "Version 1.0.0";
+    }
+  }
+
+  loadMenu();
+  loadVersion();
+</script>
+
+</body>
+</html>
