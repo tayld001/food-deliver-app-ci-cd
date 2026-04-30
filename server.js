@@ -11,7 +11,7 @@ const menu = [
   { id: 3, name: "Burrata Garden Salad", price: 12.00 },
   { id: 4, name: "Crispy Duck Confit", price: 22.00 },
   { id: 5, name: "Waygu Smash Burger", price: 19.00 },
-  { id: 6, name: "Miso Black Cod", price: 24.50 },
+  { id: 6, name: "Miso Black Catfish", price: 24.50 },
   { id: 7, name: "Burnt Basque Cheesecake", price: 9.00 },
 ];
 
