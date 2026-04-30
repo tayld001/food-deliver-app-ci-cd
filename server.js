@@ -3,7 +3,7 @@ const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const APP_VERSION = process.env.APP_VERSION || "v2.1";
+const APP_VERSION = process.env.APP_VERSION || "v3.0";
 
 const menu = [
   { id: 1, name: "Truffle Mushroom Risotto", price: 18.50 },
